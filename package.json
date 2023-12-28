@@ -20,7 +20,6 @@
     "start": "cross-env NODE_ENV=production node ./build/server.js",
     "typecheck": "tsc"
   },
-  "prettier": {},
   "eslintIgnore": [
     "/node_modules",
     "/build",

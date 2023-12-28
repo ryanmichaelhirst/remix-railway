@@ -1,92 +1,87 @@
-import fs from "node:fs";
-import path from "node:path";
-import url from "node:url";
+import fs from "node:fs"
+import path from "node:path"
+import url from "node:url"
 
-import { createRequestHandler } from "@remix-run/express";
-import type { ServerBuild } from "@remix-run/node";
-import { broadcastDevReady, installGlobals } from "@remix-run/node";
-import type { RequestHandler } from "express";
-import express from "express";
-import sourceMapSupport from "source-map-support";
+import { createRequestHandler } from "@remix-run/express"
+import type { ServerBuild } from "@remix-run/node"
+import { broadcastDevReady, installGlobals } from "@remix-run/node"
+import type { RequestHandler } from "express"
+import express from "express"
+import sourceMapSupport from "source-map-support"
 
-sourceMapSupport.install();
-installGlobals();
-run();
+sourceMapSupport.install()
+installGlobals()
+run()
 
 async function run() {
-  const BUILD_PATH = path.resolve("build/index.js");
-  const VERSION_PATH = path.resolve("build/version.txt");
+  const BUILD_PATH = path.resolve("build/index.js")
+  const VERSION_PATH = path.resolve("build/version.txt")
 
-  const initialBuild = await reimportServer();
+  const initialBuild = await reimportServer()
   const remixHandler =
     process.env.NODE_ENV === "development"
       ? await createDevRequestHandler(initialBuild)
       : createRequestHandler({
           build: initialBuild,
           mode: initialBuild.mode,
-        });
+        })
 
-  const app = express();
+  const app = express()
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
-  app.disable("x-powered-by");
+  app.disable("x-powered-by")
 
   // Remix fingerprints its assets so we can cache forever.
-  app.use(
-    "/build",
-    express.static("public/build", { immutable: true, maxAge: "1y" }),
-  );
+  app.use("/build", express.static("public/build", { immutable: true, maxAge: "1y" }))
 
   // Everything else (like favicon.ico) is cached for an hour. You may want to be
   // more aggressive with this caching.
-  app.use(express.static("public", { maxAge: "1h" }));
+  app.use(express.static("public", { maxAge: "1h" }))
 
   // Register request handler
-  app.all("*", remixHandler);
+  app.all("*", remixHandler)
 
-  const PORT = process.env.PORT || 3000;
-  const NODE_ENV = process.env.NODE_ENV;
+  const PORT = process.env.PORT || 3000
+  const NODE_ENV = process.env.NODE_ENV
 
   app.listen(PORT, () => {
-    console.log(`✅ app ready (${NODE_ENV}): http://localhost:${PORT}`);
+    console.log(`✅ app ready (${NODE_ENV}): http://localhost:${PORT}`)
 
     if (NODE_ENV === "development") {
-      broadcastDevReady(initialBuild);
+      broadcastDevReady(initialBuild)
     }
-  });
+  })
 
   async function reimportServer(): Promise<ServerBuild> {
     // cjs: manually remove the server build from the require cache
     Object.keys(require.cache).forEach((key) => {
       if (key.startsWith(BUILD_PATH)) {
-        delete require.cache[key];
+        delete require.cache[key]
       }
-    });
+    })
 
-    const stat = fs.statSync(BUILD_PATH);
+    const stat = fs.statSync(BUILD_PATH)
 
     // convert build path to URL for Windows compatibility with dynamic `import`
-    const BUILD_URL = url.pathToFileURL(BUILD_PATH).href;
+    const BUILD_URL = url.pathToFileURL(BUILD_PATH).href
 
     // use a timestamp query parameter to bust the import cache
-    return import(BUILD_URL + "?t=" + stat.mtimeMs);
+    return import(BUILD_URL + "?t=" + stat.mtimeMs)
   }
 
-  async function createDevRequestHandler(
-    initialBuild: ServerBuild,
-  ): Promise<RequestHandler> {
-    let build = initialBuild;
+  async function createDevRequestHandler(initialBuild: ServerBuild): Promise<RequestHandler> {
+    let build = initialBuild
     async function handleServerUpdate() {
       // 1. re-import the server build
-      build = await reimportServer();
+      build = await reimportServer()
       // 2. tell Remix that this app server is now up-to-date and ready
-      broadcastDevReady(build);
+      broadcastDevReady(build)
     }
-    const chokidar = await import("chokidar");
+    const chokidar = await import("chokidar")
     chokidar
       .watch(VERSION_PATH, { ignoreInitial: true })
       .on("add", handleServerUpdate)
-      .on("change", handleServerUpdate);
+      .on("change", handleServerUpdate)
 
     // wrap request handler to make sure its recreated with the latest build for every request
     return async (req, res, next) => {
@@ -94,10 +89,10 @@ async function run() {
         return createRequestHandler({
           build,
           mode: "development",
-        })(req, res, next);
+        })(req, res, next)
       } catch (error) {
-        next(error);
+        next(error)
       }
-    };
+    }
   }
 }
