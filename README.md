@@ -90,11 +90,13 @@ Prior to your first deployment, you'll need to do the following:
 
 - Click `New Project` on Railway to house your app
 
-- Click `Deploy from GitHub repo` and select this repo to create a service for your web app
-
 - Click `+ New` -> `Database` -> `Add PostgreSQL` to create a service for your postgres db
 
-- After both services have been created, create an env variable `DATABASE_URL` in your app service using the db credentials for your postgres service
+  > **Note:** After the postgres service has been created, copy the value for `Variables` -> `DATABASE_URL`
+
+- Click `Deploy from GitHub repo` and select this repo to create a service for your web app
+
+- Create an env variable `DATABASE_URL` using the copied value from the postgres service
 
 ## CI / CD
 

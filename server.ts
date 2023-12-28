@@ -41,6 +41,8 @@ async function run() {
   // Register request handler
   app.all("*", remixHandler)
 
+  // Railway will automatically set and expose a PORT for your web app
+  // https://docs.railway.app/guides/public-networking#railway-provided-port
   const PORT = process.env.PORT || 3000
   const NODE_ENV = process.env.NODE_ENV
 

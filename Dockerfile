@@ -22,7 +22,7 @@ WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
 ADD package.json .npmrc ./
-RUN npm prune --omit=dev
+RUN npm prune --production
 
 # Build the app
 FROM base as build
@@ -31,11 +31,18 @@ WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
 
+# Generate prisma client
 ADD prisma .
 RUN npx prisma generate
 
+# Bundle source
 ADD . .
 RUN npm run build
+
+# Run migrations
+ARG DATABASE_URL
+# ENV DATABASE_URL $DATABASE_URL
+RUN npm run deploy:db
 
 # Finally, build the production image with minimal footprint
 FROM base
@@ -48,5 +55,9 @@ COPY --from=build /myapp/node_modules/.prisma /myapp/node_modules/.prisma
 COPY --from=build /myapp/build /myapp/build
 COPY --from=build /myapp/public /myapp/public
 ADD . .
+
+# If you would like to explicitly set a port: https://docs.railway.app/guides/public-networking#user-defined-port
+# ENV PORT 8080
+# EXPOSE 8080
 
 CMD ["npm", "start"]

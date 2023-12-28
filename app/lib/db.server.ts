@@ -4,7 +4,7 @@ import invariant from "tiny-invariant"
 import { singleton } from "@/utils/singleton.server"
 
 // Hard-code a unique key, so we can look up the client when this module gets re-imported
-const db = singleton("prisma", getPrismaClient)
+export const db = singleton("prisma", getPrismaClient)
 
 function getPrismaClient() {
   const { DATABASE_URL } = process.env
@@ -16,10 +16,6 @@ function getPrismaClient() {
   // re-run per request like everything else is. So if you need to change
   // something in this file, you'll need to manually restart the server.
   const client = new PrismaClient()
-  // connect eagerly
-  client.$connect()
 
   return client
 }
-
-export { db }
