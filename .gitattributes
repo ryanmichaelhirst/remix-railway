@@ -1,0 +1,5 @@
+# Needed for cross platform development
+# https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
+* text=auto eol=lf
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
