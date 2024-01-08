@@ -19,7 +19,7 @@ Bare bones template for deploying a Remix app via Railway.
 1. Clone via create-remix cli:
 
    ```sh
-   npx create-remix@latest --template remix-run/blues-stack my-app --package-manager pnpm
+   npx create-remix@latest --template https://github.com/ryanmichaelhirst/remix-railway my-app --package-manager pnpm
    ```
 
 2. You can also clone this repository directly, and run the `remix.init` script manually.
@@ -80,6 +80,10 @@ This is a bare bones repo with a single database model called `Example`. `1,000`
 
 ## Deployment
 
+> **Note:** Before deploying your app, you will need to first create a postgres service on railway. https://docs.railway.app/guides/postgresql
+
+### Railway UI
+
 Production deployments are done via [Railway](https://railway.app/), a platform that will handle all the CI/CD operations for you. Railway will look for a `/Dockerfile` to build the app. [Learn more about Railway Dockerfiles](https://docs.railway.app/guides/dockerfiles).
 
 Prior to your first deployment, you'll need to do the following:
@@ -96,7 +100,31 @@ Prior to your first deployment, you'll need to do the following:
 
 - Click `Deploy from GitHub repo` and select this repo to create a service for your web app
 
-- Create an env variable `DATABASE_URL` using the copied value from the postgres service
+- Create an env var `DATABASE_URL` using the copied value from the postgres service
+
+<br />
+
+> **Note:** You can also deploy manually on https://railway.app. You will still need to manually create an env var `DATABASE_URL`
+
+### Railway CLI
+
+- [Install cli](https://docs.railway.app/guides/cli#installing-the-cli)
+- Authenticate via cli:
+  ```sh
+  railway login
+  ```
+- Create new project
+  ```sh
+  railway init
+  ```
+- Connect to new project
+  ```sh
+  railway link
+  ```
+- Deploy app
+  ```sh
+  railway up
+  ```
 
 ## CI / CD
 
