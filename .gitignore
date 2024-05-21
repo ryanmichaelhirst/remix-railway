@@ -13,3 +13,6 @@ node_modules
 .env
 
 /postgres-data
+.DS_Store
+scratch.json
+cloudflare.yaml
