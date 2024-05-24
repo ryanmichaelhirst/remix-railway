@@ -74,9 +74,74 @@ Bare bones template for deploying a Remix app via Railway.
 
   > **Note:** This starts your app in development mode, rebuilding assets on file changes.
 
-### Relevant code:
+### Stripe
 
-This is a bare bones repo with a single database model called `Example`. `1,000` records will be created in the `Example` table after running `pnpm run setup`. You can replace this schema with your own in `/prisma/schema.prisma`. Make sure you update the prisma seed script as well under `/prisma/seed.ts`.
+Payments are powered through Stripe and recorded through a webhook at `/app/routes/stripe.event`
+
+Install the Stripe CLI [here](https://docs.stripe.com/stripe-cli#install), and forward events to your local webhook during testing with
+
+```
+stripe listen --forward-to localhost:3000/stripe/event
+```
+
+Read more about stripe testing [here](https://docs.stripe.com/webhooks#test-webhook)
+
+Use card details 4242 4242 4242 4242, 12/34 and 123
+
+Alternatively, you can use Cloudflare Tunnels to receive webhooks events locally
+
+### Cloudflare Tunnels
+
+You can expose your localhost server (`pnpm dev`) as a publicaly routable IP address with ssh tunneling
+
+Full instructions [here](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/#set-up-a-tunnel-locally-cli-setup)
+
+Install with homebrew
+
+```
+brew install cloudflared
+```
+
+Login using cli
+
+```
+cloudflared tunnel login
+```
+
+Create a tunnel
+
+```
+cloudflared tunnel create <NAME>
+```
+
+Update config file with your creds
+
+```
+cp cloudflare.yaml.sample cloudflare.yaml
+```
+
+Route traffic to tunnel
+
+```
+cloudflared tunnel route dns <UUID or NAME> <hostname>
+```
+
+i.e
+
+```
+cloudflared tunnel route dns 71b2ae8b-6e25-4435-b6c0-1d80490552a1 dev.example.com
+```
+
+Expose the dev server
+
+```
+cloudflared tunnel run <UUID or NAME> // or
+pnpm tunnel
+```
+
+If you are using cloudflare this has already been done for you.
+
+If using a different domain registar you will need to follow the guide [here](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/routing-to-tunnel/dns/)
 
 ## Deployment
 
@@ -140,7 +205,7 @@ This project uses TypeScript. To run type checking across the whole project, run
 
 ### Linting
 
-This project uses ESLint for linting. That is configured in `.eslintrc.js`.
+This project uses ESLint for linting. You can customize in `.eslintrc.js`.
 
 ### Formatting
 
