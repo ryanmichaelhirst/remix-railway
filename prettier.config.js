@@ -9,6 +9,6 @@ module.exports = {
     "prettier-plugin-organize-imports",
     "prettier-plugin-tailwindcss", // MUST BE LAST
   ],
-  tailwindConfig: "./tailwind.config.js",
+  tailwindConfig: "./tailwind.config.ts",
   tailwindFunctions: ["clsx", "cn", "twMerge"],
 }
