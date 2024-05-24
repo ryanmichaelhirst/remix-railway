@@ -7,6 +7,7 @@
     "build:routes": "routes-gen -d @routes-gen/remix",
     "build:remix": "remix build",
     "build:server": "esbuild --platform=node --format=cjs ./server.ts --outdir=build --bundle --external:fsevents",
+    "clean": "rm -rf .cache build public/build && find ./ -name \".DS_Store\" -print -delete",
     "dev": "run-p dev:*",
     "dev:server": "cross-env NODE_ENV=development npm run build:server -- --watch",
     "dev:remix": "remix dev --manual -c \"node --watch-path ./build/server.js --watch ./build/server.js\"",
@@ -19,6 +20,7 @@
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "start": "cross-env NODE_ENV=production node ./build/server.js",
+    "tunnel": "cloudflared tunnel --config cloudflare.yaml run",
     "typecheck": "tsc"
   },
   "eslintIgnore": [
