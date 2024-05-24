@@ -1,3 +1,4 @@
+import { Logo } from "@/components/Logo"
 import { db } from "@/lib/db.server"
 import { type MetaFunction } from "@remix-run/node"
 import { typedjson, useTypedLoaderData } from "remix-typedjson"
@@ -19,6 +20,7 @@ export default function Index() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center space-y-4 bg-white">
+      <Logo />
       <div>
         Welcome to{" "}
         <a
