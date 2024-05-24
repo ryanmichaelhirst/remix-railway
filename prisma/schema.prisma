@@ -10,11 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Replace this `Example` model with your own schema
-model Example {
-  id        Int @id @default(autoincrement())
-  content   String
+// Google authenticated user record
+model User {
+  id       Int     @id @default(autoincrement())
+  uid      String  @unique @default(dbgenerated("('user_'::text || nanoid())"))
+  googleId String     @unique
+  email    String  @unique
+  name     String
+  photoUrl String?
+
+  payment Payment[]
+
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+}
+
+// Stripe payment record
+model Payment {
+  id      Int    @id @default(autoincrement())
+  uid     String @unique @default(dbgenerated("('pay_'::text || nanoid())"))
+  amount  String
+  payload Json
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
   deletedAt DateTime?
 }
