@@ -2,7 +2,7 @@ version: "3.8"
 services:
   postgres_db:
     image: postgres:14.1-alpine
-    container_name: railway_postgres_db
+    container_name: remix_railway_postgres_db
     restart: always
     environment:
       - POSTGRES_USER=postgres
