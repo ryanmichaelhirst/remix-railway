@@ -11,8 +11,7 @@ export function CtaSection() {
           malesuada. Praesent eget quam nisl. Curabitur ut fringilla ipsum, eget molestie nulla.
         </p>
         <ButtonLink
-          // to={route("/auth/login")}
-          to={route("/")}
+          to={route("/auth/login")}
           size="lg"
           variant="outline"
           className="rounded-full text-[#007F72] dark:border-[#007F72] dark:bg-[#007F72] dark:text-white"

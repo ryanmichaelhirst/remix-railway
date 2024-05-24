@@ -28,8 +28,7 @@ export default function Page() {
         </div>
         <div className="flex items-center justify-center space-x-3">
           <ButtonLink
-            // to={route("/auth/login")}
-            to={route("/")}
+            to={route("/auth/login")}
             size="lg"
             variant="default"
             className="rounded-full font-semibold"

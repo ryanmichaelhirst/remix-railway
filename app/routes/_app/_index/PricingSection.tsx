@@ -21,8 +21,7 @@ export function PricingSection() {
           </CardHeader>
           <CardContent className="space-y-6">
             <ButtonLink
-              // to={route("/auth/login")}
-              to={route("/")}
+              to={route("/auth/login")}
               variant="outline"
               className="w-full rounded-full font-medium"
             >
