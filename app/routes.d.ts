@@ -6,6 +6,8 @@ declare module "routes-gen" {
     "/auth/redirect": Record<string, never>;
     "/health-check": Record<string, never>;
     "/preferences/theme": Record<string, never>;
+    "/privacy": Record<string, never>;
+    "/terms": Record<string, never>;
   };
 
   export function route<
@@ -16,5 +18,7 @@ declare module "routes-gen" {
       | ["/auth/redirect"]
       | ["/health-check"]
       | ["/preferences/theme"]
+      | ["/privacy"]
+      | ["/terms"]
   >(...args: T): typeof args[0];
 }

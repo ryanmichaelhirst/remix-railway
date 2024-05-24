@@ -24,7 +24,7 @@ import {
 import { typedjson, useTypedLoaderData } from "remix-typedjson"
 import { route } from "routes-gen"
 import { z } from "zod"
-// import { Footer } from "./footer"
+import { Footer } from "./Footer"
 
 export const loader = async (args: LoaderFunctionArgs) =>
   app(args)
@@ -57,7 +57,7 @@ export default function Page() {
       {/* Main content */}
       <Outlet />
       {/* Footer */}
-      {/* <Footer /> */}
+      <Footer />
     </>
   )
 }
