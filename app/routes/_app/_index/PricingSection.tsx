@@ -42,8 +42,7 @@ export function PricingSection() {
           </CardHeader>
           <CardContent className="space-y-6">
             <ButtonLink
-              // to={route("/checkout")}
-              to={route("/")}
+              to={route("/checkout")}
               variant="default"
               className="w-full rounded-full border font-medium"
             >

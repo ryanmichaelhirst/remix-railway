@@ -15,11 +15,10 @@ import { LoaderFunctionArgs } from "@remix-run/node"
 import { Outlet, useNavigate, useSubmit } from "@remix-run/react"
 import {
   BadgeCheckIcon,
-  BrainIcon,
   CircleUserRoundIcon,
   CreditCardIcon,
+  LayoutDashboardIcon,
   LogOutIcon,
-  SearchIcon,
 } from "lucide-react"
 import { typedjson, useTypedLoaderData } from "remix-typedjson"
 import { route } from "routes-gen"
@@ -107,23 +106,12 @@ export function Menubar(props: LayoutLoaderData) {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => {
-                      navigate(route("/search"))
+                      navigate(route("/dashboard"))
                     }}
                     className="space-x-4"
                   >
-                    <SearchIcon />
-                    <span>Search</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      if (props.user?.url) {
-                        window.open(props.user.url, "_blank")
-                      }
-                    }}
-                    className="space-x-4"
-                  >
-                    <BrainIcon />
-                    <span>Genius</span>
+                    <LayoutDashboardIcon />
+                    <span>Dashboard</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => {
@@ -147,7 +135,7 @@ export function Menubar(props: LayoutLoaderData) {
                       <Button
                         className="my-2 space-x-2"
                         onClick={() => {
-                          // navigate(route("/checkout"))
+                          navigate(route("/checkout"))
                         }}
                       >
                         <CreditCardIcon />
@@ -155,7 +143,7 @@ export function Menubar(props: LayoutLoaderData) {
                       </Button>
                     </>
                   ) : (
-                    <DropdownMenuLabel className="flex space-x-4">
+                    <DropdownMenuLabel className="flex items-center space-x-4">
                       <BadgeCheckIcon />
                       <span>Premium</span>
                     </DropdownMenuLabel>
