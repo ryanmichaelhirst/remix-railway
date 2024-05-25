@@ -74,11 +74,13 @@ Bare bones template for deploying a Remix app via Railway.
 
   > **Note:** This starts your app in development mode, rebuilding assets on file changes.
 
-### Stripe
+## Stripe
 
 Payments are powered through Stripe and recorded through a webhook at `/app/routes/stripe.event`
 
-Install the Stripe CLI [here](https://docs.stripe.com/stripe-cli#install), and forward events to your local webhook during testing with
+> **Note:** Because of a [bug in linuxbrew](https://github.com/stripe/stripe-cli/issues/645), Windows users will need to use Cloudflare Tunnels or a similar alternative to test stripe webhooks locally.
+
+For Mac Users, install the Stripe CLI [here](https://docs.stripe.com/stripe-cli#install), and forward events to your local webhook during testing with
 
 ```
 stripe listen --forward-to localhost:3000/stripe/event
@@ -86,9 +88,9 @@ stripe listen --forward-to localhost:3000/stripe/event
 
 Read more about stripe testing [here](https://docs.stripe.com/webhooks#test-webhook)
 
-Use card details 4242 4242 4242 4242, 12/34 and 123
+Use card details `4242 4242 4242 4242, 12/34, 123`
 
-Alternatively, you can use Cloudflare Tunnels to receive webhooks events locally
+Alternatively, you can use Cloudflare Tunnels to receive webhooks events locally.
 
 ### Cloudflare Tunnels
 
