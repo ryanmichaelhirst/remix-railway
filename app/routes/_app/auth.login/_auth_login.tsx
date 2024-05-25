@@ -25,7 +25,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Page() {
   return (
-    <main className="relative flex grow flex-col space-y-10">
+    <main className="relative flex h-[80vh] grow flex-col space-y-10">
       <div className="flex flex-1 flex-col justify-center">
         <div className="mx-8 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="space-y-4 px-6 py-12 shadow sm:rounded-lg sm:px-12">
@@ -35,7 +35,11 @@ export default function Page() {
 
             <div className="flex items-center justify-center">
               <Form method="post" action="/auth/login">
-                <Button type="submit" className="flex items-center justify-center space-x-3">
+                <Button
+                  type="submit"
+                  className="flex items-center justify-center space-x-3"
+                  variant="outline"
+                >
                   <img
                     src={GoogleLogo}
                     alt="Google logo"
@@ -47,7 +51,7 @@ export default function Page() {
             </div>
           </div>
 
-          <p className="text-center text-sm text-gray-500">
+          <p className="mt-8 text-center text-sm text-gray-500">
             Don't have a{" "}
             <ButtonLink to="https://google.com/" target="_blank" className={cn("m-0 p-0")}>
               Google
